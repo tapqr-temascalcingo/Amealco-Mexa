@@ -79,7 +79,6 @@
     animation: cardAppear 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
   }
 
-  /* Cada carta aparece en secuencia rápida (total ~0.55s) */
   .loto-cell:nth-child(1)  { animation-delay: 0.00s; }
   .loto-cell:nth-child(2)  { animation-delay: 0.05s; }
   .loto-cell:nth-child(3)  { animation-delay: 0.10s; }
@@ -99,7 +98,6 @@
     100% { opacity: 1; transform: scale(1) rotate(0deg); }
   }
 
-  /* Centro del tablero: logo MEXA (ocupa 2x2 en el medio) */
   .loto-center {
     grid-column: 2 / 4;
     grid-row: 2 / 4;
@@ -167,19 +165,18 @@
     width: 100%;
   }
 
-  /* Colores de fondo de cada carta (estilo lotería) */
-  .loto-cell:nth-child(1)  { background: #F4D58D; } /* El Taco - amarillo */
-  .loto-cell:nth-child(2)  { background: #A8C97F; } /* El Guacamole - verde */
-  .loto-cell:nth-child(3)  { background: #A8C8E8; } /* El Pozole - azul claro */
-  .loto-cell:nth-child(4)  { background: #F4D58D; } /* El Tamal - amarillo */
-  .loto-cell:nth-child(5)  { background: #D4C5A8; } /* El Molcajete - beige */
-  .loto-cell:nth-child(6)  { background: #E8A8C8; } /* Las Enchiladas - rosa */
-  .loto-cell:nth-child(7)  { background: #A8D8D8; } /* El Mezcal - turquesa */
-  .loto-cell:nth-child(8)  { background: #F4C58D; } /* Los Esquites - naranja claro */
-  .loto-cell:nth-child(9)  { background: #F4D58D; } /* La Quesadilla - amarillo */
-  .loto-cell:nth-child(10) { background: #A8C97F; } /* El Chile Relleno - verde */
-  .loto-cell:nth-child(11) { background: #A8C8E8; } /* El Agua Fresca - azul */
-  .loto-cell:nth-child(12) { background: #E8C8A8; } /* El Flan - durazno */
+  .loto-cell:nth-child(1)  { background: #F4D58D; }
+  .loto-cell:nth-child(2)  { background: #A8C97F; }
+  .loto-cell:nth-child(3)  { background: #A8C8E8; }
+  .loto-cell:nth-child(4)  { background: #F4D58D; }
+  .loto-cell:nth-child(5)  { background: #D4C5A8; }
+  .loto-cell:nth-child(6)  { background: #E8A8C8; }
+  .loto-cell:nth-child(7)  { background: #A8D8D8; }
+  .loto-cell:nth-child(8)  { background: #F4C58D; }
+  .loto-cell:nth-child(9)  { background: #F4D58D; }
+  .loto-cell:nth-child(10) { background: #A8C97F; }
+  .loto-cell:nth-child(11) { background: #A8C8E8; }
+  .loto-cell:nth-child(12) { background: #E8C8A8; }
 
   @keyframes splashOut {
     to { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -239,29 +236,86 @@
   }
   @keyframes heroIn { from { opacity: 0; } }
 
-  .medallion {
-    --d: min(58vw, 230px);
+  /* ================= PLATO GIRATORIO ================= */
+  .medallion-wrap {
     position: relative;
-    width: var(--d);
+    width: min(58vw, 230px);
     aspect-ratio: 1;
     margin: 0 auto 26px;
+    perspective: 800px;
+  }
+
+  .medallion {
+    position: absolute;
+    inset: 0;
     border-radius: 50%;
     overflow: hidden;
     background: #FCF9F5;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    will-change: transform;
+    transform: rotate(0deg);
     box-shadow:
       0 0 0 6px #FCF9F5,
       0 0 0 7px rgba(107, 58, 46, 0.12),
       0 0 0 16px rgba(107, 58, 46, 0.04),
       0 22px 34px -10px rgba(0, 0, 0, 0.18);
-    transition: transform 0.4s ease;
+    transition: box-shadow 0.3s ease;
   }
-  .medallion:hover { transform: scale(1.03) rotate(-2deg); }
-  .medallion img {
+  .medallion:active {
+    cursor: grabbing;
+    box-shadow:
+      0 0 0 6px #FCF9F5,
+      0 0 0 7px rgba(107, 58, 46, 0.22),
+      0 0 0 16px rgba(107, 58, 46, 0.08),
+      0 28px 40px -10px rgba(0, 0, 0, 0.28);
+  }
+
+  /* Contenedor interno que se centra perfectamente */
+  .medallion-inner {
     position: absolute;
-    left: 50%; top: 50%;
-    width: 100%;
-    height: auto;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .medallion img {
+    width: 82%;
+    height: 82%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Brillo sutil tipo plato de cerámica */
+  .medallion::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.5) 0%, transparent 45%);
+    pointer-events: none;
+  }
+
+  /* Pista visual: pequeñas flechas circulares indicando que se puede girar */
+  .medallion-wrap::before {
+    content: '↻';
+    position: absolute;
+    top: 50%;
+    right: -32px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: rgba(107, 58, 46, 0.5);
+    animation: hintSpin 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes hintSpin {
+    0%, 100% { transform: translateY(-50%) rotate(0deg); opacity: 0.4; }
+    50%      { transform: translateY(-50%) rotate(360deg); opacity: 0.9; }
   }
 
   h1 {
@@ -435,6 +489,7 @@
     .row, .tile, .chev { transition: none; }
     .row:hover, .row:active { transform: none; }
     .row::before, .ripple { display: none; }
+    .medallion-wrap::before { display: none; }
   }
 
   @media (min-width: 520px) {
@@ -448,7 +503,6 @@
   <div id="splash" aria-hidden="true">
     <div class="loto-board">
 
-      <!-- Fila 1 -->
       <div class="loto-cell">
         <span class="num">1</span>
         <span class="icon">🌮</span>
@@ -470,12 +524,10 @@
         <span class="label">El Tamal</span>
       </div>
 
-      <!-- Centro (logo) ocupa columnas 2-3 y filas 2-3 -->
       <div class="loto-center">
         <img src="logo.jpg" alt="MEXA" class="center-logo">
       </div>
 
-      <!-- El resto de cartas se acomodan alrededor -->
       <div class="loto-cell">
         <span class="num">5</span>
         <span class="icon">🪨</span>
@@ -523,8 +575,12 @@
   <main class="page">
 
     <header class="hero">
-      <div class="medallion">
-        <img src="logo.jpg" alt="Logotipo MEXA - Los sabores de la tierra" width="800" height="800">
+      <div class="medallion-wrap">
+        <div class="medallion" id="platoGiratorio" title="Gira el logo">
+          <div class="medallion-inner">
+            <img src="logo.jpg" alt="Logotipo MEXA - Los sabores de la tierra" width="800" height="800" draggable="false">
+          </div>
+        </div>
       </div>
       <h1>MEXA · Los sabores de la tierra</h1>
       <div class="rule" aria-hidden="true"></div>
@@ -624,6 +680,7 @@
 
 
 <script>
+  // Ripple en botones
   document.querySelectorAll('.row').forEach(function (row) {
     row.addEventListener('pointerdown', function (e) {
       var r = row.getBoundingClientRect();
@@ -637,6 +694,108 @@
       setTimeout(function () { w.remove(); }, 650);
     });
   });
+
+  // ================= PLATO GIRATORIO =================
+  (function () {
+    var plato = document.getElementById('platoGiratorio');
+    if (!plato) return;
+
+    var rotacion = 0;
+    var velocidad = 0;
+    var arrastrando = false;
+    var ultimoAngulo = 0;
+    var ultimoTiempo = 0;
+    var animando = false;
+
+    function anguloDesdeCentro(x, y) {
+      var rect = plato.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      return Math.atan2(y - cy, x - cx) * (180 / Math.PI);
+    }
+
+    function aplicar() {
+      plato.style.transform = 'rotate(' + rotacion + 'deg)';
+    }
+
+    function inercia() {
+      if (Math.abs(velocidad) < 0.05) {
+        velocidad = 0;
+        animando = false;
+        return;
+      }
+      rotacion += velocidad;
+      velocidad *= 0.95;
+      aplicar();
+      requestAnimationFrame(inercia);
+    }
+
+    plato.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      arrastrando = true;
+      animando = false;
+      velocidad = 0;
+      ultimoAngulo = anguloDesdeCentro(e.clientX, e.clientY);
+      ultimoTiempo = performance.now();
+      plato.setPointerCapture(e.pointerId);
+    });
+
+    plato.addEventListener('pointermove', function (e) {
+      if (!arrastrando) return;
+      var anguloActual = anguloDesdeCentro(e.clientX, e.clientY);
+      var delta = anguloActual - ultimoAngulo;
+
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+
+      rotacion += delta;
+
+      var ahora = performance.now();
+      var dt = ahora - ultimoTiempo;
+      if (dt > 0) {
+        velocidad = delta / dt * 16;
+      }
+
+      ultimoAngulo = anguloActual;
+      ultimoTiempo = ahora;
+      aplicar();
+    });
+
+    plato.addEventListener('pointerup', function (e) {
+      if (!arrastrando) return;
+      arrastrando = false;
+      if (Math.abs(velocidad) > 0.3) {
+        animando = true;
+        inercia();
+      }
+    });
+
+    plato.addEventListener('pointercancel', function () {
+      arrastrando = false;
+    });
+
+    var tiempoDown = 0;
+    plato.addEventListener('pointerdown', function () {
+      tiempoDown = performance.now();
+    });
+    plato.addEventListener('click', function () {
+      if (performance.now() - tiempoDown < 200 && !arrastrando && !animando) {
+        var inicio = rotacion;
+        var destino = rotacion + 360;
+        var duracion = 800;
+        var t0 = performance.now();
+
+        function animarGiro(now) {
+          var t = Math.min((now - t0) / duracion, 1);
+          var eased = 1 - Math.pow(1 - t, 3);
+          rotacion = inicio + (destino - inicio) * eased;
+          aplicar();
+          if (t < 1) requestAnimationFrame(animarGiro);
+        }
+        requestAnimationFrame(animarGiro);
+      }
+    });
+  })();
 </script>
 
 </body>
