@@ -48,7 +48,7 @@
     position: fixed; inset: 0; z-index: 50;
     background: radial-gradient(120% 70% at 50% 35%, #8B5A4A 0%, #4A2C23 70%);
     display: grid; place-items: center;
-    animation: splashOut 0.8s ease 4.5s forwards;
+    animation: splashOut 0.8s ease 1.9s forwards;
     padding: 20px;
   }
 
@@ -79,19 +79,19 @@
     animation: cardAppear 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
   }
 
-  /* Cada carta aparece en secuencia */
-  .loto-cell:nth-child(1)  { animation-delay: 0.0s; }
-  .loto-cell:nth-child(2)  { animation-delay: 0.12s; }
-  .loto-cell:nth-child(3)  { animation-delay: 0.24s; }
-  .loto-cell:nth-child(4)  { animation-delay: 0.36s; }
-  .loto-cell:nth-child(5)  { animation-delay: 0.48s; }
-  .loto-cell:nth-child(6)  { animation-delay: 0.60s; }
-  .loto-cell:nth-child(7)  { animation-delay: 0.72s; }
-  .loto-cell:nth-child(8)  { animation-delay: 0.84s; }
-  .loto-cell:nth-child(9)  { animation-delay: 0.96s; }
-  .loto-cell:nth-child(10) { animation-delay: 1.08s; }
-  .loto-cell:nth-child(11) { animation-delay: 1.20s; }
-  .loto-cell:nth-child(12) { animation-delay: 1.32s; }
+  /* Cada carta aparece en secuencia rápida (total ~0.55s) */
+  .loto-cell:nth-child(1)  { animation-delay: 0.00s; }
+  .loto-cell:nth-child(2)  { animation-delay: 0.05s; }
+  .loto-cell:nth-child(3)  { animation-delay: 0.10s; }
+  .loto-cell:nth-child(4)  { animation-delay: 0.15s; }
+  .loto-cell:nth-child(5)  { animation-delay: 0.20s; }
+  .loto-cell:nth-child(6)  { animation-delay: 0.25s; }
+  .loto-cell:nth-child(7)  { animation-delay: 0.30s; }
+  .loto-cell:nth-child(8)  { animation-delay: 0.35s; }
+  .loto-cell:nth-child(9)  { animation-delay: 0.40s; }
+  .loto-cell:nth-child(10) { animation-delay: 0.45s; }
+  .loto-cell:nth-child(11) { animation-delay: 0.50s; }
+  .loto-cell:nth-child(12) { animation-delay: 0.55s; }
 
   @keyframes cardAppear {
     0%   { opacity: 0; transform: scale(0.4) rotate(-15deg); }
@@ -114,9 +114,10 @@
     padding: clamp(4px, 2vw, 12px);
     opacity: 0;
     transform: scale(0.3);
-    animation: centerPop 0.8s cubic-bezier(.34,1.56,.64,1) 1.6s forwards;
+    animation: centerPop 0.7s cubic-bezier(.34,1.56,.64,1) 0.6s forwards;
     position: relative;
     z-index: 2;
+    overflow: hidden;
   }
 
   @keyframes centerPop {
@@ -125,25 +126,11 @@
     100% { opacity: 1; transform: scale(1); }
   }
 
-  .loto-center .brand {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 700;
-    font-size: clamp(20px, 7vw, 38px);
-    letter-spacing: 2px;
-    color: #6B3A2E;
-    line-height: 1;
-    text-align: center;
-  }
-
-  .loto-center .tagline {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(5px, 1.6vw, 9px);
-    letter-spacing: 2px;
-    color: #6B5E57;
-    text-align: center;
-    margin-top: clamp(2px, 0.8vw, 6px);
-    text-transform: uppercase;
+  .center-logo {
+    width: 88%;
+    height: auto;
+    object-fit: contain;
+    display: block;
   }
 
   .loto-cell .num {
@@ -246,7 +233,7 @@
   .hero {
     padding: 44px 28px 30px;
     text-align: center;
-    animation: heroIn 0.7s ease 4.5s backwards;
+    animation: heroIn 0.7s ease 1.9s backwards;
     position: relative;
     z-index: 1;
   }
@@ -307,7 +294,7 @@
   .sheet {
     flex: 1;
     padding: 10px 20px 26px;
-    animation: sheetUp 0.8s cubic-bezier(.2,.7,.2,1) 4.65s backwards;
+    animation: sheetUp 0.8s cubic-bezier(.2,.7,.2,1) 2.05s backwards;
     position: relative;
     z-index: 1;
   }
@@ -485,8 +472,7 @@
 
       <!-- Centro (logo) ocupa columnas 2-3 y filas 2-3 -->
       <div class="loto-center">
-        <div class="brand">MEXA</div>
-        <div class="tagline">Los sabores de la tierra · EST. 2024</div>
+        <img src="logo.jpg" alt="MEXA" class="center-logo">
       </div>
 
       <!-- El resto de cartas se acomodan alrededor -->
@@ -542,7 +528,7 @@
       </div>
       <h1>MEXA · Los sabores de la tierra</h1>
       <div class="rule" aria-hidden="true"></div>
-      <p class="lead">Cocina mexicana contemporánea · EST. 2024</p>
+      <p class="lead">Cocina mexicana contemporánea</p>
     </header>
 
     <section class="sheet" aria-label="Enlaces de contacto">
@@ -630,7 +616,7 @@
 
       <footer class="foot">
         <p>MEXA · Los sabores de la tierra</p>
-        <p>Ciudad de México · EST. 2024</p>
+        <p>Amealco</p>
       </footer>
 
     </section>
